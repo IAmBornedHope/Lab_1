@@ -16,8 +16,10 @@ void free_matrix(Matrix* mx);
 MatrixErrors print_matrix(Matrix* mx);
 MatrixErrors set_elem(Matrix* mx, u_int i, u_int j, void* value);
 
+MatrixErrors matrix_on_scalar(Matrix* matrix, const void* scalar, Matrix* result);
+MatrixErrors reset_matrix(const Matrix* mx);
 MatrixErrors matrix_add(Matrix* a, Matrix* b, Matrix* result);
-Matrix* matrix_multiply(Matrix* a, Matrix* b);
+MatrixErrors matrix_multiply(Matrix* a, Matrix* b, Matrix* result);
 Matrix* scalar_multiply(Matrix* a, void* scalar);
 
 
