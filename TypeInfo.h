@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief Сигнатура бинарной операции
+ * 
+ */
 typedef void (*BinaryOperator)(const void* arg1, const void* arg2, void* result);
 
 typedef struct {

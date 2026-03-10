@@ -3,28 +3,25 @@
 #include "matrix.h"
 #include "TypeInfo.h"
 #include "errors.h"
-
-
-
+#include "double.h"
 
 int main() {
 
     MatrixErrors operationResult = MATRIX_OPERATION_OK;
-    TypeInfo* int_type = get_int_typeinfo();
+    //TypeInfo* int_type = get_int_typeinfo();
+    TypeInfo* double_type = get_double_typeinfo();
 
-    Matrix* m1 = create_matrix(2, int_type, &operationResult);
-    Matrix* m2 = create_matrix(2, int_type, &operationResult);
-    Matrix* result = create_matrix(2, int_type, &operationResult);
+    Matrix* m1 = create_matrix(2, double_type, &operationResult);
+    Matrix* m2 = create_matrix(2, double_type, &operationResult);
+    Matrix* result = create_matrix(2, double_type, &operationResult);
 
 
     reset_matrix(result);
-    int value;
-    int value_2;
-    value = 1;
-    value_2 = 4;
+    double value = 1.2;
+    double value_2 = 4.4;
 
-    int scalar;
-    scalar = 13;
+    double scalar;
+    scalar = 13.0;
     
     set_elem(m1, 0, 0, &value);
     set_elem(m1, 0, 1, &value);
@@ -39,7 +36,7 @@ int main() {
 
     //matrix_add(m1, m2, result);
 
-     //matrix_multiply(m1, m2, result);
+    //matrix_multiply(m1, m2, result);
     matrix_on_scalar(m1, &scalar, result);
     
     print_matrix(m1);
