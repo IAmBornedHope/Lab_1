@@ -1,18 +1,26 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -g
-TARGET = lab_1
-SRCS = main.c matrix.c integer.c double.c
-OBJS = $(SRCS:.c=.o)
+CFLAGS = -Iinclude -O2 -DBGLVL=2
+TARGET = bin\lab_1.exe
+SRCDIR = src
+OBJDIR = build
 
-all: $(TARGET)
+SRC = double.c integer.c main.c matrix.c output.c
+
+OBJ = $(SRC:%.c=%.o)
+OBJS = $(OBJ:%=$(OBJDIR)/%) 
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $^ -o $@
 
-%.o: %.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clean:
-	rm -f $(OBJS) $(TARGET)
 
-.PHONY: all clean
+ .PHONY: all clean cleanall
+
+ clean:
+	del /f $(TARGET)
+
+cleanall:
+	del /f $(TARGET)
+	del /f $(OBJDIR)\*.o
