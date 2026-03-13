@@ -34,7 +34,7 @@ Matrix* create_matrix(int matrix_size, TypeInfo* info, MatrixErrors* error) {
 
 }
 
-void* get_elem(const Matrix* matrix, u_int row, u_int col) {
+void* get_elem(Matrix* matrix, u_int row, u_int col) {
     
     if (!matrix) return NULL;
     u_int size = matrix->size;
@@ -156,7 +156,7 @@ void matrix_multiply(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* err
 }
 
 
-void matrix_on_scalar(Matrix* matrix, const void* scalar, Matrix* result, MatrixErrors* error) {
+void matrix_on_scalar(Matrix* matrix, void* scalar, Matrix* result, MatrixErrors* error) {
 
     if (!matrix || !result) {
         if (error) *error = MATRIX_NOT_DEFINED;
