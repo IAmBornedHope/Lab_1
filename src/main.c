@@ -7,10 +7,10 @@ int main() {
 
     setlocale(LC_ALL, "C.UTF8");
     SetConsoleOutputCP(CP_UTF8);
-    
+
     u_int type = 0, size = 0, mode = 0;
     TypeInfo* info;
-    MatrixErrors error;
+    MatrixErrors error = MATRIX_OPERATION_OK;
     int int_value;
     double double_value;
 
