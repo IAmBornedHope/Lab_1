@@ -225,6 +225,10 @@ Matrix* add_linear_combination(Matrix* matrix, int row_index, void* alphas, Matr
             void* target = get_elem(result, row_index, col);
 
             void* temp = malloc(result->info->size);
+            if (!temp) {
+                free_matrix(result);
+                return NULL;
+            }
 
             result->info->multiply(source, beta, temp);
             result->info->add(target, temp, target);
