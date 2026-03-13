@@ -2,13 +2,11 @@
 #include <windows.h>
 #include "matrix.h"
 #include "output.h"
-
 #include "tests.h"
 
 int main() {
     run_all_tests();
 
-//
     setlocale(LC_ALL, "C.UTF8");
     SetConsoleOutputCP(CP_UTF8);
 
@@ -37,7 +35,6 @@ int main() {
         print_error(error);
         return 1;
     }
-    //reset_matrix(first_matrix, &error);
 
     puts("Введите матрицу поэлементно:");
 
@@ -77,8 +74,6 @@ int main() {
                 print_error(error);
                 return 1;
             }
-            //reset_matrix(second_matrix, &error);
-            //reset_matrix(result_matrix, &error);
             puts("Введите вторую матрицу поэлементно:");
 
             if (type == 1) {
@@ -115,8 +110,6 @@ int main() {
                 print_error(error);
                 return 1;
             }
-            //reset_matrix(second_matrix, &error);
-            //reset_matrix(result_matrix, &error);
             puts("Введите вторую матрицу поэлементно:");
 
             if (type == 1) {
@@ -172,6 +165,10 @@ int main() {
             u_int target_row;
             puts("Введите строку, к которой необходимо прибавить линейную комбинацию: ");
             scanf("%d", &target_row);
+            if (target_row > size) {
+                puts("Некорректный индекс целевой строки");
+                return 1;
+            }
             target_row--;
             u_int element_size = first_matrix->info->size;
             void* alphas = malloc(size * element_size);
@@ -204,8 +201,9 @@ int main() {
             free_matrix(result_matrix);
             break;
         }
+    
+    }
     puts("Работа завершена. Статус программы: ");
     print_error(error);
-    }
     return 0;
 }

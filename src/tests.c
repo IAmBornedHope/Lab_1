@@ -11,7 +11,7 @@ u_int failed = 0;
 
 void run_test(const char* name, void (*func)()) {
     func();
-    printf("[УСПЕШНО]  Тест: %-50s\n", name);
+    printf("[УСПЕШНО]  Тест: %s\n", name);
     passed++;
 }
 
@@ -468,6 +468,7 @@ void run_all_tests() {
     run_test("18. Линейная комбинация строк (целочисленная матрица)", int_linear_combination);
     run_test("19. Линейная комбинация строк (вещественная матрица)", double_linear_combination);
     run_test("20. Некорректный индекс целевой строки при линейной комбинации", linear_index_out_of_matrix);
+    puts("=========================================================================================");
 
     if (failed > 0) {
         exit(1);

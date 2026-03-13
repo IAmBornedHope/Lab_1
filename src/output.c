@@ -4,7 +4,7 @@
 void print_error(MatrixErrors error) {
     switch (error) {
         case MATRIX_OPERATION_OK:
-            puts("Работа завершена");
+            puts("Ошибок нет");
             break;
         case MEMORY_ALLOCATION_FAILED:
             puts("Не удалось выделить память");
