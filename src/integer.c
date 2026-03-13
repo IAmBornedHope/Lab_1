@@ -12,7 +12,7 @@ void int_multiply(const void* arg1, const void* arg2, void* result) {
 }
 
 void int_print(const void* number) {
-    printf("%d", *(const int*)number);
+    printf("%4d", *(const int*)number);
 }
 
 void int_init_zero(void* data) {

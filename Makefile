@@ -4,7 +4,7 @@ TARGET = bin\lab_1.exe
 SRCDIR = src
 OBJDIR = build
 
-SRC = double.c integer.c main.c matrix.c output.c
+SRC = double.c integer.c main.c matrix.c output.c tests.c
 
 OBJ = $(SRC:%.c=%.o)
 OBJS = $(OBJ:%=$(OBJDIR)/%) 

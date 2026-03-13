@@ -1,5 +1,9 @@
 #pragma once
 
+/**
+ * @brief Структура кодов ошибок
+ * 
+ */
 typedef enum {
     MATRIX_OPERATION_OK = 0,
     MEMORY_ALLOCATION_FAILED = 100,

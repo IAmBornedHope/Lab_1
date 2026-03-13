@@ -27,7 +27,7 @@ void int_multiply(const void* arg1, const void* arg2, void* result);
 void int_print(const void* data);
 
 /**
- * @brief Функция для 
+ * @brief Функция для инициализации элемента целочисленным нулем
  * 
  * @param data 
  */

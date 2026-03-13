@@ -31,3 +31,17 @@ void print_error(MatrixErrors error) {
             puts("Что-то пошло не так");
     }
 }
+
+void print_matrix(Matrix* matrix) {
+    u_int size = matrix->size;
+    puts("Матрица:");
+    for (u_int row = 0; row < size; ++row) {
+        printf("[ ");
+        for (u_int col = 0; col < size; ++col) {
+            matrix->info->print(get_elem(matrix, row, col));
+            printf(" ");
+        }
+    puts("  ]");
+        
+    }
+}

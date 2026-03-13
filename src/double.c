@@ -11,7 +11,7 @@ void double_multiply(const void* arg1, const void* arg2, void* result) {
 }
 
 void double_print(const void* number) {
-    printf("%.3f", *(const double*)number);
+    printf("%8.3f", *(const double*)number);
 }
 
 void double_init_zero(void* data) {

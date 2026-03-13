@@ -2,9 +2,9 @@
 #include "errors.h"
 #include "define.h"
 
-Matrix* create_matrix(u_int matrix_size, TypeInfo* info, MatrixErrors* error) {
+Matrix* create_matrix(int matrix_size, TypeInfo* info, MatrixErrors* error) {
 
-    if (matrix_size >= MAX_MATRIX_SIZE) {
+    if (matrix_size > MAX_MATRIX_SIZE || matrix_size <= 0) {
         *error = WRONG_MATRIX_SIZE;
         return NULL;
     }
@@ -23,6 +23,13 @@ Matrix* create_matrix(u_int matrix_size, TypeInfo* info, MatrixErrors* error) {
         return NULL;
     }
 
+    char* pointer = (char*)matrix->data;
+    u_int element_size = matrix->info->size;
+    for (u_int index = 0; index < matrix_size * matrix_size; ++index) {
+        matrix->info->init_zero(pointer);
+        pointer += element_size;
+    }
+
     return matrix;
 
 }
@@ -38,21 +45,20 @@ void* get_elem(const Matrix* matrix, u_int row, u_int col) {
     return base + offset;
 }
 
-void reset_matrix(const Matrix* matrix, MatrixErrors* error) {
+void get_value(Matrix* matrix, u_int row, u_int col, void* out_value, MatrixErrors* error) {
     if (!matrix) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return;
     }
-    u_int size = matrix->size;
-    for (u_int i = 0; i < size; ++i) {
-        for (u_int j = 0; j < size; ++j) {
-            matrix->info->init_zero(get_elem(matrix, i, j));
-        }
+
+    void* pointer = get_elem(matrix, row, col);
+
+    if (!pointer) {
+        if (error) * error = INDEX_OUT_OF_MATRIX;
+        return;
     }
+    memcpy(out_value, pointer, matrix->info->size);
 }
-
-
-
 
 void set_elem(Matrix* matrix, u_int row, u_int col, void* value, MatrixErrors* error) {
     if (!matrix) {
@@ -75,25 +81,7 @@ void free_matrix(Matrix* matrix) {
 }
 
     
-void print_matrix(const Matrix* matrix, MatrixErrors* error) {
-    if (!matrix) {
-        if (error) *error = MATRIX_NOT_DEFINED;
-        return;
-    }
 
-    u_int size = matrix->size;
-
-    puts("Matrix:");
-    for (u_int row = 0; row < size; ++row) {
-        printf("[ ");
-        for (u_int col = 0; col < size; ++col) {
-            matrix->info->print(get_elem(matrix, row, col));
-            printf(" ");
-        }
-    puts("]");
-        
-    }
-}
 
 void matrix_add(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* error) {
 
@@ -122,6 +110,7 @@ void matrix_add(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* error) {
             mx1->info->add(get_elem(mx1, row, col), get_elem(mx2, row, col), get_elem(result, row, col));
         }
     }
+    if (error) *error = MATRIX_OPERATION_OK;
 }
 
 void matrix_multiply(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* error) {
@@ -163,6 +152,7 @@ void matrix_multiply(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* err
         }
     }
     free(temp);
+    if (error) *error = MATRIX_OPERATION_OK;
 }
 
 
@@ -183,6 +173,7 @@ void matrix_on_scalar(Matrix* matrix, const void* scalar, Matrix* result, Matrix
             matrix->info->multiply(get_elem(matrix, row, col), scalar, get_elem(result, row, col));
         }
     }
+    if (error) *error = MATRIX_OPERATION_OK;
 }
 
 Matrix* copy_matrix(Matrix* source, MatrixErrors* error) {
@@ -197,6 +188,7 @@ Matrix* copy_matrix(Matrix* source, MatrixErrors* error) {
     }
 
     memcpy(copy->data, source->data, source->size * source->size * source->info->size);
+    if (error) *error = MATRIX_OPERATION_OK;
     return copy;
 
 }
@@ -238,6 +230,7 @@ Matrix* add_linear_combination(Matrix* matrix, int row_index, void* alphas, Matr
             result->info->add(target, temp, target);
         }
     }
+    if (error) *error = MATRIX_OPERATION_OK;
     return result;
 }
 

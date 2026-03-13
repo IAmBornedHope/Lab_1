@@ -1,16 +1,14 @@
-#include "define.h"
-#include "integer.h"
-#include "matrix.h"
-#include "TypeInfo.h"
-#include "errors.h"
-#include "double.h"
-#include "output.h"
-
 #include <locale.h>
 #include <windows.h>
+#include "matrix.h"
+#include "output.h"
+
+#include "tests.h"
 
 int main() {
+    run_all_tests();
 
+//
     setlocale(LC_ALL, "C.UTF8");
     SetConsoleOutputCP(CP_UTF8);
 
@@ -39,7 +37,7 @@ int main() {
         print_error(error);
         return 1;
     }
-    reset_matrix(first_matrix, &error);
+    //reset_matrix(first_matrix, &error);
 
     puts("Введите матрицу поэлементно:");
 
@@ -65,7 +63,7 @@ int main() {
     }
 
     puts("Вы ввели матрицу:");
-    print_matrix(first_matrix, &error);
+    print_matrix(first_matrix);
     puts("Выберите операцию: ");
     puts("[1] - Сложение матриц\n[2] - Умножение матриц\
         \n[3] - Умножение матрицы на скаляр\n[4] - Прибавление к строке линейной комбинации других строк");
@@ -79,8 +77,8 @@ int main() {
                 print_error(error);
                 return 1;
             }
-            reset_matrix(second_matrix, &error);
-            reset_matrix(result_matrix, &error);
+            //reset_matrix(second_matrix, &error);
+            //reset_matrix(result_matrix, &error);
             puts("Введите вторую матрицу поэлементно:");
 
             if (type == 1) {
@@ -104,9 +102,9 @@ int main() {
                 }
             }
             matrix_add(first_matrix, second_matrix, result_matrix, &error);
-            print_matrix(first_matrix, &error);
-            print_matrix(second_matrix, &error);
-            print_matrix(result_matrix, &error);
+            print_matrix(first_matrix);
+            print_matrix(second_matrix);
+            print_matrix(result_matrix);
             free_matrix(second_matrix);
             free_matrix(result_matrix);
             break; }
@@ -117,8 +115,8 @@ int main() {
                 print_error(error);
                 return 1;
             }
-            reset_matrix(second_matrix, &error);
-            reset_matrix(result_matrix, &error);
+            //reset_matrix(second_matrix, &error);
+            //reset_matrix(result_matrix, &error);
             puts("Введите вторую матрицу поэлементно:");
 
             if (type == 1) {
@@ -142,9 +140,9 @@ int main() {
                 }
             }
             matrix_multiply(first_matrix, second_matrix, result_matrix, &error);
-            print_matrix(first_matrix, &error);
-            print_matrix(second_matrix, &error);
-            print_matrix(result_matrix, &error);
+            print_matrix(first_matrix);
+            print_matrix(second_matrix);
+            print_matrix(result_matrix);
             free_matrix(second_matrix);
             free_matrix(result_matrix);
             break; }
@@ -166,7 +164,7 @@ int main() {
                 scanf("%lf", &scalar);
                 matrix_on_scalar(first_matrix, &scalar, result_matrix, &error);
             }
-            print_matrix(result_matrix, &error);
+            print_matrix(result_matrix);
             free_matrix(result_matrix);
             break;
         }
@@ -185,7 +183,7 @@ int main() {
 
             for (u_int index = 0; index < size; ++index) {
                 if (index == target_row) continue;
-                    printf("Введите %u-й коэффициент для строки (целевая не учитывается):\n", index + 1);
+                    printf("Введите коэффициент для %u-й строки:\n", index + 1);
                 if (element_size == sizeof(int)) {
                     int value;
                     scanf("%d", &value);
@@ -200,14 +198,14 @@ int main() {
             }
 
             Matrix* result_matrix = add_linear_combination(first_matrix, target_row, alphas, &error);
-            print_matrix(first_matrix, &error);
-            print_matrix(result_matrix, &error);
+            print_matrix(first_matrix);
+            print_matrix(result_matrix);
             free(alphas);
             free_matrix(result_matrix);
             break;
-    }
+        }
     puts("Работа завершена. Статус программы: ");
     print_error(error);
+    }
     return 0;
-}
 }
