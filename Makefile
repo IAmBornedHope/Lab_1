@@ -1,7 +1,6 @@
 CC = gcc
 AR = ar
 CFLAGS = -Iinclude -O2 -DBGLVL=2
-LDFLAGS = -lm
 
 TARGET_MAIN = bin\lab_1.exe
 TARGET_TESTS = bin\tests.exe
@@ -28,10 +27,10 @@ $(LIB_NAME): $(LIB_OBJS)
 	$(AR) rcs $@ $^
 
 $(TARGET_MAIN): $(MAIN_OBJ) $(LIB_NAME)
-	$(CC) $(MAIN_OBJ) -Lbuild -lmatrix $(LDFLAGS) -o $@
+	$(CC) $(MAIN_OBJ) -Lbuild -lmatrix -o $@
 
 $(TARGET_TESTS): $(TEST_OBJS) $(LIB_NAME)
-	$(CC) $(TEST_OBJS) -Lbuild -lmatrix $(LDFLAGS) -o $@
+	$(CC) $(TEST_OBJS) -Lbuild -lmatrix -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@

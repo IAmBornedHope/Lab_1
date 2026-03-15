@@ -28,6 +28,8 @@ void print_error(MatrixErrors error) {
         case DIFFERENT_MATRIX_SIZES:
             puts("Размеры матриц не совпадают");
             break;
+        case ZERO_POINTER:
+            puts("Передан нулевой (NULL) указатель");
         default:
             puts("Что-то пошло не так");
     }

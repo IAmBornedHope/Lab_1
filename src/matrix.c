@@ -39,7 +39,7 @@ Matrix* create_matrix(u_int matrix_size, TypeInfo* info, MatrixErrors* error) {
 void* get_elem(Matrix* matrix, u_int row, u_int col) {
     if (!matrix) return NULL;
     u_int size = matrix->size;
-    if (row > size || col > size) return NULL;
+    if (row >= size || col >= size) return NULL;
 
     char* base = (char*)matrix->data;
     u_int offset = (row * size + col) * matrix->info->size;
@@ -82,10 +82,9 @@ void set_elem(Matrix* matrix, u_int row, u_int col, void* value, MatrixErrors* e
     memcpy(get_elem(matrix, row, col), value, matrix->info->size);
 }
 
-
 void free_matrix(Matrix* matrix) {
-    if (!matrix || !matrix->data) return;
-    free(matrix->data);
+    if (!matrix) return;
+    if (matrix->data) free(matrix->data);
     free(matrix);
 }
 
@@ -161,7 +160,6 @@ void matrix_multiply(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* err
     if (error) *error = MATRIX_OPERATION_OK;
 }
 
-
 void matrix_on_scalar(Matrix* matrix, void* scalar, Matrix* result, MatrixErrors* error) {
     if (!error) return;
     if (!matrix || !result) {
@@ -235,6 +233,7 @@ Matrix* add_linear_combination(Matrix* matrix, u_int row_index, void* alphas, Ma
     char* array = (char*)alphas;
     void* temp = malloc(result->info->size);
     if (!temp) {
+        if (error) *error = MEMORY_ALLOCATION_FAILED;
         free_matrix(result);
         return NULL;
         }

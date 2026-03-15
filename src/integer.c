@@ -1,6 +1,6 @@
 #include "integer.h"
 
-static TypeInfo* INT_TYPE_INFO = NULL;
+static TypeInfo* int_type_info = NULL;
 
 void int_add(const void* arg1, const void* arg2, void* result) {
     *(int*)result = *(int*)arg1 + *(int*)arg2;
@@ -19,13 +19,13 @@ void int_init_zero(void* data) {
 }
 
 TypeInfo* get_int_typeinfo() {
-    if (INT_TYPE_INFO == NULL) {
-        INT_TYPE_INFO = (TypeInfo*)malloc(sizeof(TypeInfo));
-        INT_TYPE_INFO->size = sizeof(int);
-        INT_TYPE_INFO->add = int_add;
-        INT_TYPE_INFO->multiply = int_multiply;
-        INT_TYPE_INFO->init_zero = int_init_zero;
-        INT_TYPE_INFO->print = int_print;
+    if (int_type_info == NULL) {
+        int_type_info = (TypeInfo*)malloc(sizeof(TypeInfo));
+        int_type_info->size = sizeof(int);
+        int_type_info->add = int_add;
+        int_type_info->multiply = int_multiply;
+        int_type_info->init_zero = int_init_zero;
+        int_type_info->print = int_print;
     }
-    return INT_TYPE_INFO;
+    return int_type_info;
 }
