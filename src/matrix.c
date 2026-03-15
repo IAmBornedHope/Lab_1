@@ -1,11 +1,15 @@
 #include "matrix.h"
-#include "errors.h"
-#include "define.h"
+#include "matrix_errors.h"
 
-Matrix* create_matrix(int matrix_size, TypeInfo* info, MatrixErrors* error) {
+Matrix* create_matrix(u_int matrix_size, TypeInfo* info, MatrixErrors* error) {
+    if (!error) return NULL;
+    if (!info) {
+        if (error) *error = ZERO_POINTER;
+        return NULL;
+    }
 
-    if (matrix_size > MAX_MATRIX_SIZE || matrix_size <= 0) {
-        *error = WRONG_MATRIX_SIZE;
+    if (matrix_size > MAX_MATRIX_SIZE || matrix_size == 0) {
+        if (error) *error = WRONG_MATRIX_SIZE;
         return NULL;
     }
     Matrix* matrix = (Matrix*)malloc(sizeof(Matrix));
@@ -29,13 +33,10 @@ Matrix* create_matrix(int matrix_size, TypeInfo* info, MatrixErrors* error) {
         matrix->info->init_zero(pointer);
         pointer += element_size;
     }
-
     return matrix;
-
 }
 
 void* get_elem(Matrix* matrix, u_int row, u_int col) {
-    
     if (!matrix) return NULL;
     u_int size = matrix->size;
     if (row > size || col > size) return NULL;
@@ -46,6 +47,7 @@ void* get_elem(Matrix* matrix, u_int row, u_int col) {
 }
 
 void get_value(Matrix* matrix, u_int row, u_int col, void* out_value, MatrixErrors* error) {
+    if (!error) return;
     if (!matrix) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return;
@@ -61,10 +63,17 @@ void get_value(Matrix* matrix, u_int row, u_int col, void* out_value, MatrixErro
 }
 
 void set_elem(Matrix* matrix, u_int row, u_int col, void* value, MatrixErrors* error) {
+    if (!error) return;
     if (!matrix) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return;
     }
+
+    if (!value) {
+        if (error) *error = ZERO_POINTER;
+        return;
+    }
+
     u_int size = matrix->size;
     if (row >= size || col >= size) {
         if (error) *error = INDEX_OUT_OF_MATRIX;
@@ -80,11 +89,8 @@ void free_matrix(Matrix* matrix) {
     free(matrix);
 }
 
-    
-
-
 void matrix_add(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* error) {
-
+    if (!error) return;
     if (!mx1 || !mx2 || !result) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return;
@@ -114,7 +120,7 @@ void matrix_add(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* error) {
 }
 
 void matrix_multiply(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* error) {
-    
+    if (!error) return;
     if (!mx1 || !mx2 || !result) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return;
@@ -157,13 +163,18 @@ void matrix_multiply(Matrix* mx1, Matrix* mx2, Matrix* result, MatrixErrors* err
 
 
 void matrix_on_scalar(Matrix* matrix, void* scalar, Matrix* result, MatrixErrors* error) {
-
+    if (!error) return;
     if (!matrix || !result) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return;
     }
     if (!matrix->info->multiply) {
         if (error) *error = OPERATION_NOT_DEFINED;
+        return;
+    }
+
+    if (!scalar) {
+        if (error) *error = ZERO_POINTER;
         return;
     }
 
@@ -177,6 +188,7 @@ void matrix_on_scalar(Matrix* matrix, void* scalar, Matrix* result, MatrixErrors
 }
 
 Matrix* copy_matrix(Matrix* source, MatrixErrors* error) {
+    if (!error) return NULL;
     if (!source) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return NULL;
@@ -193,13 +205,14 @@ Matrix* copy_matrix(Matrix* source, MatrixErrors* error) {
 
 }
 
-Matrix* add_linear_combination(Matrix* matrix, int row_index, void* alphas, MatrixErrors* error) {
+Matrix* add_linear_combination(Matrix* matrix, u_int row_index, void* alphas, MatrixErrors* error) {
+    if (!error) return NULL;
     if (!matrix) {
         if (error) *error = MATRIX_NOT_DEFINED;
         return NULL;
     }
 
-    if (row_index < 0 || row_index >= matrix->size) {
+    if (row_index >= matrix->size) {
         if (error) *error = INDEX_OUT_OF_MATRIX;
         return NULL;
     }
@@ -209,12 +222,22 @@ Matrix* add_linear_combination(Matrix* matrix, int row_index, void* alphas, Matr
         return NULL;
     }
 
+    if (!alphas) {
+        if (error) *error = ZERO_POINTER;
+        return NULL;
+    }
+
     Matrix* result = copy_matrix(matrix, error);
     if (!result) return NULL;
 
     u_int size = matrix->size;
     u_int element_size = matrix->info->size;
     char* array = (char*)alphas;
+    void* temp = malloc(result->info->size);
+    if (!temp) {
+        free_matrix(result);
+        return NULL;
+        }
 
     for (u_int index = 0; index < size; ++index) {
         if (index == row_index) continue;
@@ -224,16 +247,12 @@ Matrix* add_linear_combination(Matrix* matrix, int row_index, void* alphas, Matr
             void* source = get_elem(result, index, col);
             void* target = get_elem(result, row_index, col);
 
-            void* temp = malloc(result->info->size);
-            if (!temp) {
-                free_matrix(result);
-                return NULL;
-            }
 
             result->info->multiply(source, beta, temp);
             result->info->add(target, temp, target);
         }
     }
+    free(temp);
     if (error) *error = MATRIX_OPERATION_OK;
     return result;
 }

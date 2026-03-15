@@ -1,4 +1,3 @@
-
 #include "integer.h"
 
 static TypeInfo* INT_TYPE_INFO = NULL;

@@ -2,7 +2,7 @@
 #include "double.h"
 #include "integer.h"
 #include "define.h"
-#include "errors.h"
+#include "matrix_errors.h"
 
 
 
@@ -20,7 +20,7 @@ typedef struct {
  * @param error Статус ошибки
  * @return Matrix* 
  */
-Matrix* create_matrix(int matrix_size, TypeInfo* info, MatrixErrors* error);
+Matrix* create_matrix(u_int matrix_size, TypeInfo* info, MatrixErrors* error);
 
 /**
  * @brief Очистка памяти, выделенной под матрицу и ее содержимое
@@ -109,4 +109,4 @@ void matrix_on_scalar(Matrix* matrix, void* scalar, Matrix* result, MatrixErrors
  * @param error Статус ошибки
  * @return Matrix* 
  */
-Matrix* add_linear_combination(Matrix* matrix, int row_index, void* alphas, MatrixErrors* error);
+Matrix* add_linear_combination(Matrix* matrix, u_int row_index, void* alphas, MatrixErrors* error);
