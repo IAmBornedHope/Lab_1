@@ -1,6 +1,7 @@
 #pragma once
 #include "assertions.h"
-
+#include <locale.h>
+#include <windows.h>
 
 typedef void (*test_func)(void);
 
@@ -25,6 +26,8 @@ typedef struct _test {
 
 #define TEST_ENTRY_POINT \
     int main(void) { \
+        setlocale(LC_ALL, "C.UTF8"); \
+        SetConsoleOutputCP(CP_UTF8); \
         run_test(); \
         int result = print_stats(); \
         cleanup_tests(); \

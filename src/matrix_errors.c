@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "matrix_errors.h"
 
-
 void print_error(MatrixErrors error) {
     switch (error) {
         case MATRIX_OPERATION_OK:
