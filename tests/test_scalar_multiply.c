@@ -257,3 +257,39 @@ TEST(test_double_matrix_multiply_null_scalar) {
     free_matrix(matrix);
     free_matrix(matrix_result);
 }
+
+TEST(test_scalar_int_incompatible_result) {
+    puts("ТЕСТ 5.10");
+    puts("Тестируемая функция - matrix_on_scalar. Умножение целочисленной матрицы на скаляр, результирующая - вещественная");
+    MatrixErrors result = MATRIX_OPERATION_OK;
+    MatrixErrors expect = INCOMPATIBLE_MATRIX_TYPES;
+    int scalar = 15;
+    Matrix* matrix = create_matrix(3, INT_MATRIX, &result);
+    Matrix* matrix_result = create_matrix(3, DOUBLE_MATRIX, &result);
+    assert(matrix != NULL);
+    assert(matrix_result != NULL);
+    matrix_on_scalar(matrix, &scalar, matrix_result, &result);
+    assert(expect == result);
+
+    free_matrix(matrix);
+    free_matrix(matrix_result);
+
+}
+
+TEST(test_scalar_double_incompatible_result) {
+    puts("ТЕСТ 5.11");
+    puts("Тестируемая функция - matrix_on_scalar. Умножение вещественной матрицы на скаляр, результирующая - вещественная");
+    MatrixErrors result = MATRIX_OPERATION_OK;
+    MatrixErrors expect = INCOMPATIBLE_MATRIX_TYPES;
+    double scalar = 15.0;
+    Matrix* matrix = create_matrix(3, DOUBLE_MATRIX, &result);
+    Matrix* matrix_result = create_matrix(3, INT_MATRIX, &result);
+    assert(matrix != NULL);
+    assert(matrix_result != NULL);
+    matrix_on_scalar(matrix, &scalar, matrix_result, &result);
+    assert(expect == result);
+
+    free_matrix(matrix);
+    free_matrix(matrix_result);
+
+}

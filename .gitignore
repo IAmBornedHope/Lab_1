@@ -1,6 +1,5 @@
 *.o
 *.exe
-*.csv
 *.txt
 build/
 bin/

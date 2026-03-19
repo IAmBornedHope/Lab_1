@@ -191,3 +191,41 @@ TEST(test_double_different_size_addition) {
     free_matrix(matrix_result);
 }
 
+TEST(test_add_int_incompatible_result_type) {
+    puts("ТЕСТ 3.6");
+    puts("Тестируемая функция - matrix_add. Две целочисленных матрицы корректны, результирующая - вещественная");
+    MatrixErrors result = MATRIX_OPERATION_OK;
+    MatrixErrors expect = INCOMPATIBLE_MATRIX_TYPES;
+    Matrix* matrix_1 = create_matrix(3, INT_MATRIX, &result);
+    Matrix* matrix_2 = create_matrix(3, INT_MATRIX, &result);
+    Matrix* matrix_result = create_matrix(3, DOUBLE_MATRIX, &result);
+    assert(matrix_1 != NULL);
+    assert(matrix_2 != NULL);
+    assert(matrix_result != NULL);
+    matrix_add(matrix_1, matrix_2, matrix_result, &result);
+    assert(expect == result);
+
+    free_matrix(matrix_1);
+    free_matrix(matrix_2);
+    free_matrix(matrix_result);
+}
+
+TEST(test_add_double_incompatible_result_type) {
+    puts("ТЕСТ 3.7");
+    puts("Тестируемая функция - matrix_add. Две вещественных матрицы корректны, результирующая - целочисленная");
+    MatrixErrors result = MATRIX_OPERATION_OK;
+    MatrixErrors expect = INCOMPATIBLE_MATRIX_TYPES;
+    Matrix* matrix_1 = create_matrix(3, DOUBLE_MATRIX, &result);
+    Matrix* matrix_2 = create_matrix(3, DOUBLE_MATRIX, &result);
+    Matrix* matrix_result = create_matrix(3, INT_MATRIX, &result);
+    assert(matrix_1 != NULL);
+    assert(matrix_2 != NULL);
+    assert(matrix_result != NULL);
+    matrix_add(matrix_1, matrix_2, matrix_result, &result);
+    assert(expect == result);
+
+    free_matrix(matrix_1);
+    free_matrix(matrix_2);
+    free_matrix(matrix_result);
+}
+

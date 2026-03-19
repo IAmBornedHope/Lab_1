@@ -11,6 +11,10 @@
  */
 typedef void (*BinaryOperator)(const void* arg1, const void* arg2, void* result);
 
+/**
+ * @brief Структура виртуальной таблицы
+ * 
+ */
 typedef struct {
     u_int size;
     BinaryOperator add;

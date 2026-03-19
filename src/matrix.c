@@ -171,10 +171,16 @@ void matrix_on_scalar(Matrix* matrix, void* scalar, Matrix* result, MatrixErrors
         return;
     }
 
+    if (matrix->info != result->info) {
+        if (error) *error = INCOMPATIBLE_MATRIX_TYPES;
+        return;
+    }
+
     if (!scalar) {
         if (error) *error = ZERO_POINTER;
         return;
     }
+
 
     u_int size = matrix->size;
     for (u_int row = 0; row < size; ++row) {
