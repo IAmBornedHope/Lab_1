@@ -29,7 +29,7 @@ void int_print(const void* data);
 /**
  * @brief Функция для инициализации элемента целочисленным нулем
  * 
- * @param data 
+ * @param data Указатель на нужный элемент
  */
 void int_init_zero(void* data);
 TypeInfo* get_int_typeinfo();

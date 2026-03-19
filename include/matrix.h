@@ -5,7 +5,10 @@
 #include "matrix_errors.h"
 
 
-
+/**
+ * @brief Структура матрицы
+ * 
+ */
 typedef struct {
     u_int size;
     void* data;

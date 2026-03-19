@@ -30,7 +30,7 @@ void double_print(const void* data);
 /**
  * @brief Функция для инициализации элемента вещественным нулем
  * 
- * @param data 
+ * @param data Указатель на нужный элемент
  */
 void double_init_zero(void* data);
 

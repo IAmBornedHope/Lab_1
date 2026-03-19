@@ -16,5 +16,10 @@ typedef enum {
     DIFFERENT_MATRIX_SIZES = 301,
 } MatrixErrors;
 
+/**
+ * @brief Функция для вывода сообщения об ошибке
+ * 
+ * @param error 
+ */
 void print_error(MatrixErrors error);
 

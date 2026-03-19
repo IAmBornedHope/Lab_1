@@ -6,9 +6,6 @@
 int main() {
     setlocale(LC_ALL, "C.UTF8");
     SetConsoleOutputCP(CP_UTF8);
-    
     user_interface();
-
-
     return 0;
 }

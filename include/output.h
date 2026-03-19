@@ -7,4 +7,8 @@
  */
 void print_matrix(Matrix* matrix);
 
+/**
+ * @brief Функция для вывода интерфейса пользователя
+ * 
+ */
 void user_interface();
