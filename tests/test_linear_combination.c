@@ -233,5 +233,3 @@ TEST(test_double_linear_combination_null_indices) {
     assert(expect == result);
     free_matrix(matrix);
 }
-
-

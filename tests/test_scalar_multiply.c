@@ -278,7 +278,7 @@ TEST(test_scalar_int_incompatible_result) {
 
 TEST(test_scalar_double_incompatible_result) {
     puts("ТЕСТ 5.11");
-    puts("Тестируемая функция - matrix_on_scalar. Умножение вещественной матрицы на скаляр, результирующая - вещественная");
+    puts("Тестируемая функция - matrix_on_scalar. Умножение вещественной матрицы на скаляр, результирующая - целочисленная");
     MatrixErrors result = MATRIX_OPERATION_OK;
     MatrixErrors expect = INCOMPATIBLE_MATRIX_TYPES;
     double scalar = 15.0;
@@ -291,5 +291,74 @@ TEST(test_scalar_double_incompatible_result) {
 
     free_matrix(matrix);
     free_matrix(matrix_result);
+}
 
+TEST(test_int_zero_scalar_multiply) {
+    puts("ТЕСТ 5.12");
+    puts("Тестируемая функция - matrix_on_scalar. Умножение целочисленной матрицы на нулевой скаляр");
+    MatrixErrors result = MATRIX_OPERATION_OK;
+    MatrixErrors expect = MATRIX_OPERATION_OK;
+    int scalar = 0;
+    int value = 4;
+    int out_value;
+    Matrix* matrix = create_matrix(2, INT_MATRIX, &result);
+    Matrix* matrix_result = create_matrix(2, INT_MATRIX, &result);
+    assert(matrix != NULL);
+    assert(matrix_result != NULL);
+    set_elem(matrix, 0, 0, &value, &result);
+    set_elem(matrix, 0, 1, &value, &result);
+    set_elem(matrix, 1, 0, &value, &result);
+    set_elem(matrix, 1, 1, &value, &result);
+    assert(expect == result);
+
+    matrix_on_scalar(matrix, &scalar, matrix_result, &result);
+
+    get_value(matrix_result, 0, 0, &out_value, &result);
+    assert(out_value == 0);
+    get_value(matrix_result, 0, 1, &out_value, &result);
+    assert(out_value == 0);
+    get_value(matrix_result, 1, 0, &out_value, &result);
+    assert(out_value == 0);
+    get_value(matrix_result, 1, 1, &out_value, &result);
+    assert(out_value == 0);
+
+    assert(expect == result);
+
+    free_matrix(matrix);
+    free_matrix(matrix_result);
+}
+
+TEST(test_double_zero_scalar_multiply) {
+    puts("ТЕСТ 5.13");
+    puts("Тестируемая функция - matrix_on_scalar. Умножение вещественной матрицы на нулевой скаляр");
+    MatrixErrors result = MATRIX_OPERATION_OK;
+    MatrixErrors expect = MATRIX_OPERATION_OK;
+    double scalar = 0.0;
+    double value = 4.0;
+    double out_value;
+    Matrix* matrix = create_matrix(2, DOUBLE_MATRIX, &result);
+    Matrix* matrix_result = create_matrix(2, DOUBLE_MATRIX, &result);
+    assert(matrix != NULL);
+    assert(matrix_result != NULL);
+    set_elem(matrix, 0, 0, &value, &result);
+    set_elem(matrix, 0, 1, &value, &result);
+    set_elem(matrix, 1, 0, &value, &result);
+    set_elem(matrix, 1, 1, &value, &result);
+    assert(expect == result);
+
+    matrix_on_scalar(matrix, &scalar, matrix_result, &result);
+
+    get_value(matrix_result, 0, 0, &out_value, &result);
+    assert(out_value - 0.0 < DBL_EPSILON);
+    get_value(matrix_result, 0, 1, &out_value, &result);
+    assert(out_value - 0.0 < DBL_EPSILON);
+    get_value(matrix_result, 1, 0, &out_value, &result);
+    assert(out_value - 0.0 < DBL_EPSILON);
+    get_value(matrix_result, 1, 1, &out_value, &result);
+    assert(out_value - 0.0 < DBL_EPSILON);
+
+    assert(expect == result);
+
+    free_matrix(matrix);
+    free_matrix(matrix_result);
 }
