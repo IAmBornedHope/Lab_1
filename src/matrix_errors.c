@@ -29,6 +29,7 @@ void print_error(MatrixErrors error) {
             break;
         case ZERO_POINTER:
             puts("Передан нулевой (NULL) указатель");
+            break;
         default:
             puts("Что-то пошло не так");
     }

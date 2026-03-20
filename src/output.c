@@ -19,9 +19,7 @@ void user_interface() {
     u_int type = 0, size = 0, mode = 0;
     TypeInfo* info;
     MatrixErrors error = MATRIX_OPERATION_OK;
-    int int_value;
-    double double_value;
-
+    
     puts("Программа запущена. Выберите режим работы:\n");
     puts("[1] - Работа с целыми числами\n[2] - Работа с вещественными числами");
     scanf("%u", &type);

@@ -1,6 +1,6 @@
 CC = gcc
 AR = ar
-CFLAGS = -Iinclude -O2 -DBGLVL=2
+CFLAGS = -Iinclude -DBGLVL=2 -Wall
 
 TARGET_MAIN = bin\lab_1.exe
 TARGET_TESTS = bin\tests.exe
